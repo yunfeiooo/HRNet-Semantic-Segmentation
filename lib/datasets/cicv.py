@@ -65,6 +65,9 @@ class CICV(BaseDataset):
                               }
         self.class_weights = None
 
+        self.lut = np.random.randint(256, size=(256,3), dtype=np.uint8) 
+        self.lut[0, :] = [0, 0, 0]
+
     def read_files(self):
         files = []
         if self.is_test:
@@ -203,13 +206,13 @@ class CICV(BaseDataset):
 
     def save_blend_pred(self, preds, sv_path, name):
         raw_img_root = "/data/cicv-che_seg_road/images"
-        lut = np.random.randint(256, size=(256,3), dtype=np.uint8) 
         preds = np.asarray(np.argmax(preds.cpu(), axis=1), dtype=np.uint8)
+
         for i in range(preds.shape[0]):
             pred = self.convert_label(preds[i], inverse=True)
             pred = cv2.cvtColor(pred, cv2.COLOR_GRAY2RGB)
             for j in range(3):
-                pred[j] = cv2.LUT(pred[j], lut[:, j])
+                pred[..., j] = cv2.LUT(pred[..., j], self.lut[:, j])
 
             img = cv2.imread(os.path.join(raw_img_root, name[i] + '.jpg'))
             # img[pred!=0] = pred[pred!=0]
