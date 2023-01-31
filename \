@@ -206,7 +206,6 @@ class CICV(BaseDataset):
         lut = np.random.randint(256, size=(256,3), dtype=np.uint8) 
         preds = np.asarray(np.argmax(preds.cpu(), axis=1), dtype=np.uint8)
         for i in range(preds.shape[0]):
-            pred = self.convert_label(preds[i], inverse=True)
             pred = cv2.cvtColor(pred, cv2.COLOR_GRAY2RGB)
             for j in range(3):
                 pred[j] = cv2.LUT(pred[j], lut[:, j])
@@ -214,5 +213,5 @@ class CICV(BaseDataset):
             img = cv2.imread(os.path.join(raw_img_root, name[i] + '.jpg'))
             # img[pred!=0] = pred[pred!=0]
             img = cv2.addWeighted(img, 1, pred, 0.8, 1)
-            cv2.imwrite(os.path.join(sv_path, name[i] + '.jpg'), img)
+            cv2.imwrite(os.path.join(sv_path, name[i] + '.png'), img)
 

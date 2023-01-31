@@ -99,6 +99,7 @@ def main():
     test_dataset = eval('datasets.'+config.DATASET.DATASET)(
                         root=config.DATASET.ROOT,
                         list_path=config.DATASET.TEST_SET,
+                        is_test=True,
                         num_samples=None,
                         num_classes=config.DATASET.NUM_CLASSES,
                         multi_scale=False,
@@ -128,6 +129,8 @@ def main():
         logging.info(msg)
         logging.info(IoU_array)
     elif 'test' in config.DATASET.TEST_SET:
+       pass
+    else:
         test(config, 
              test_dataset, 
              testloader, 

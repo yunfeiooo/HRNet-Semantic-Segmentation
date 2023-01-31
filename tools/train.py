@@ -285,6 +285,11 @@ def main():
             train(config, epoch, config.TRAIN.END_EPOCH, 
                   epoch_iters, config.TRAIN.LR, num_iters,
                   trainloader, optimizer, model, writer_dict)
+        
+        skip_eval_epochs = 80
+        if epoch < skip_eval_epochs:
+            logger.info(f"epoch: {epoch} < {skip_eval_epochs}, skipping eval.")
+            continue
 
         valid_loss, mean_IoU, IoU_array = validate(config, 
                     testloader, model, writer_dict)

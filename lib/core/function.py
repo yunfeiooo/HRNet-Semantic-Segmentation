@@ -233,4 +233,5 @@ def test(config, test_dataset, testloader, model,
                 sv_path = os.path.join(sv_dir, 'test_results')
                 if not os.path.exists(sv_path):
                     os.mkdir(sv_path)
-                test_dataset.save_pred(pred, sv_path, name)
+                # test_dataset.save_pred(pred, sv_path, name)
+                test_dataset.save_blend_pred(pred, sv_path, name)
